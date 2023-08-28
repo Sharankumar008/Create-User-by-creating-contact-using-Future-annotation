@@ -1,0 +1,55 @@
+public class MixedDml{
+    
+    @future
+    public static void onAfterInsert(String contactListJSON){
+        
+        List<Contact> conList=(List<Contact>)JSON.deserialize(contactListJSON, List<Contact>.class);
+        
+		List<User> userList=new List<User>();
+		for(Contact contactRecord:conList){
+		
+			
+			Profile profileRecord=[Select id from profile where name='Standard User'];
+			UserRole roleRecord=[Select id from userRole where name='CEO'];
+			
+			user userRecord=new user();
+			userRecord.lastname=contactRecord.lastname;
+			userRecord.Alias=contactRecord.lastname;
+			userRecord.Username=contactRecord.lastname +'@gmail.com';
+			userRecord.Email=contactRecord.Email;
+			
+			userRecord.EmailEncodingKey='UTF-8';
+			
+			userRecord.LanguageLocaleKey='en_US';
+			userRecord.LocaleSidKey='en_US';
+			userRecord.TimeZoneSidKey='America/Los_angeles';
+			
+			userRecord.profileId=profileRecord.Id;
+			userRecord.UserRoleId=roleRecord.Id;
+			
+			userRecord.isActive=false;
+			userList.add(userRecord);
+			
+        }
+		insert userList;
+		
+    }
+    public void onBeforeUpdate(){
+       
+  
+    }
+    public void onAfterUpdate(){
+        
+    }
+    
+    public void onBeforeDelete(){
+        
+    }
+    
+    
+    public void onAfterUnDelete(){
+       
+    
+}
+    
+}
