@@ -1,0 +1,8 @@
+trigger MixesDmlTrigger on Contact (after insert) {
+
+    String jsonString=JSON.serialize(Trigger.new);
+    
+    MixedDml.onAfterInsert(jsonString); 
+    
+    
+}
